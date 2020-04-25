@@ -4,6 +4,7 @@ import {Grid} from '@material-ui/core';
 import youtube from "./api/youtube";
 import SearchBar from "./Component/SearchBar";
 import VideoDetail from "./Component/VideoDetail";
+import VideoList from "./Component/VideoList";
 
 class App extends React.Component {
 
@@ -11,6 +12,10 @@ class App extends React.Component {
         videos:[],
         selectedVideo:null
     };
+
+    componentDidMount() {
+        this.handleSubmit('lsd');
+    }
 
     handleSubmit = async (searchItem) => {
         const response = await youtube.get('search', {params:{
@@ -27,6 +32,12 @@ class App extends React.Component {
         });
     };
 
+    onVideoSelect = (video) =>{
+        this.setState({
+            selectedVideo:video
+        });
+    };
+
     render() {
         return (
             <Grid justigy="center" container spacing={10}>
@@ -39,7 +50,7 @@ class App extends React.Component {
                             <VideoDetail video={this.state.selectedVideo} />
                         </Grid>
                         <Grid item xs={4}>
-
+                            <VideoList videos={this.state.videos} onVideoSelect={this.onVideoSelect} />
                         </Grid>
                     </Grid>
                 </Grid>
